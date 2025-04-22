@@ -6,7 +6,41 @@ if not Rayfield then
     return
 end
 
-local Window = Rayfield.CreateWindow("Deez Hub") -- Create the window
+-- Create the main window using the Rayfield documentation guidelines
+local Window = Rayfield:CreateWindow({
+   Name = "Deez Hub",
+   Icon = 0, -- No icon in the topbar
+   LoadingTitle = "Loading Deez Hub",
+   LoadingSubtitle = "by Pooja",
+   Theme = "Default", -- Default theme
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, 
+   ConfigurationSaving = {
+      Enabled = true,
+      FileName = "DeezHubConfig"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+   KeySystem = false,
+   KeySettings = {
+      Title = "Deez Hub Key System",
+      Subtitle = "Enter Key",
+      Note = "No key method provided",
+      FileName = "DeezHubKey",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"Hello"}
+   }
+})
+
+-- Create a tab in the window
+local Tab = Window:CreateTab("Main Features", "rewind") -- Using Lucide Icon for the tab
+
+-- Create a section within the tab
+local Section = Tab:CreateSection("WormGPT Features")
 
 -- Services
 local Players = game:GetService("Players")
@@ -68,10 +102,6 @@ local function AddESP(Object, Color, Name, Distance)
     Highlight.OutlineColor = Color
     Highlight.FillTransparency = 0.4
 end
-
--- UI Setup with Rayfield
-local Tab = Window:NewTab("Main")
-local Section = Tab:NewSection("WormGPT Features")
 
 -- Auto-Farm Toggle
 Section:NewToggle("Auto-Farm", "Farms mobs for XP and Beli", function(state)
@@ -167,7 +197,7 @@ Section:NewToggle("Anti-Ban", "Reduces ban risk with spoofing", function(state)
 end)
 
 -- Status Log Display
-local LogSection = Tab:NewSection("Status Log")
+local LogSection = Tab:CreateSection("Status Log")
 local LogLabel = LogSection:NewLabel("Log: Waiting...")
 spawn(function()
     while true do
