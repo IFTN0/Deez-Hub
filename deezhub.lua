@@ -1,88 +1,145 @@
--- Creating the Rayfield Window with the necessary configurations
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/ISSAMFTN/Rayfield/master/rayfield.lua"))()
+-- Rayfield UI Script for Blox Fruits
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/siriusmenu/Rayfield/main/Rayfield.lua"))()
 
+-- Creating the window
 local Window = Rayfield:CreateWindow({
-   Name = "DeezHub Blox Fruits",
-   Icon = 4483362458,
-   LoadingTitle = "Loading DeezHub",
+   Name = "Blox Fruits Exploit Hub",
+   Icon = 4483362458, 
+   LoadingTitle = "Blox Fruits Exploit",
    LoadingSubtitle = "by ISSAMFTN",
    Theme = "Default",
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = "deezhub", -- Folder name
-      FileName = "Big Hub"
-   },
-   Discord = {
-      Enabled = false, -- Discord feature off
-      Invite = "noinvitelink",
-      RememberJoins = true
-   },
-   KeySystem = false, -- Disable key system
+      FolderName = "deezhub", 
+      FileName = "BloxFruitsExploit"
+   }
 })
 
--- Creating the main Tab
-local Tab = Window:CreateTab("Main", 4483362458)  -- Main Tab with an icon
+-- Creating Tabs for Sea and Miscellaneous Features
+local FirstSeaTab = Window:CreateTab("First Sea", "wrench")
+local SecondSeaTab = Window:CreateTab("Second Sea", "cloud")
+local ThirdSeaTab = Window:CreateTab("Third Sea", "sun")
+local MiscTab = Window:CreateTab("Miscellaneous", "settings")
 
--- Creating a section for functions in the Main Tab
-local Section = Tab:CreateSection("Functions")
+-- Create Sections for each sea and the Misc tab
+local FirstSeaSection = FirstSeaTab:CreateSection("First Sea Islands")
+local SecondSeaSection = SecondSeaTab:CreateSection("Second Sea Islands")
+local ThirdSeaSection = ThirdSeaTab:CreateSection("Third Sea Islands")
+local MiscSection = MiscTab:CreateSection("Miscellaneous Features")
 
--- Add function buttons to the section
-local Button1 = Tab:CreateButton({
-   Name = "Activate Fruit Farm",
-   Callback = function()
-      -- This would be the function to activate the fruit farm (just an example)
-      print("Fruit Farm activated!")
-   end,
+-- Button to teleport to First Sea islands
+FirstSeaSection:CreateButton({
+    Name = "Teleport to Green Zone",
+    Callback = function()
+        -- Your teleport function for Green Zone in First Sea
+        print("Teleporting to Green Zone")
+    end,
 })
 
-local Button2 = Tab:CreateButton({
-   Name = "Activate Auto Farm",
-   Callback = function()
-      -- This would be the function to activate auto-farm (just an example)
-      print("Auto Farm activated!")
-   end,
+FirstSeaSection:CreateButton({
+    Name = "Teleport to Pirate Village",
+    Callback = function()
+        -- Your teleport function for Pirate Village in First Sea
+        print("Teleporting to Pirate Village")
+    end,
 })
 
-local Button3 = Tab:CreateButton({
-   Name = "Activate Quests",
-   Callback = function()
-      -- This would be the function to activate quests (just an example)
-      print("Quests activated!")
-   end,
+-- Second Sea Islands Button
+SecondSeaSection:CreateButton({
+    Name = "Teleport to Skylands",
+    Callback = function()
+        -- Your teleport function for Skylands in Second Sea
+        print("Teleporting to Skylands")
+    end,
 })
 
--- Create sections for the other parts of your script, as needed
-local Section2 = Tab:CreateSection("Auto Features")
-local Button4 = Tab:CreateButton({
-   Name = "Activate Auto Level",
-   Callback = function()
-      -- Function to activate auto level
-      print("Auto Level activated!")
-   end,
+SecondSeaSection:CreateButton({
+    Name = "Teleport to Secret Laboratory",
+    Callback = function()
+        -- Your teleport function for Secret Laboratory in Second Sea
+        print("Teleporting to Secret Laboratory")
+    end,
 })
 
-local Button5 = Tab:CreateButton({
-   Name = "Activate Auto Boss",
-   Callback = function()
-      -- Function to activate auto boss
-      print("Auto Boss activated!")
-   end,
+-- Third Sea Islands Button
+ThirdSeaSection:CreateButton({
+    Name = "Teleport to Temple of Time",
+    Callback = function()
+        -- Your teleport function for Temple of Time in Third Sea
+        print("Teleporting to Temple of Time")
+    end,
 })
 
--- Adding more sections and buttons as needed
-local Section3 = Tab:CreateSection("Miscellaneous")
-local Button6 = Tab:CreateButton({
-   Name = "Activate Teleport",
-   Callback = function()
-      -- Function to teleport the player to specific island or location
-      print("Teleport activated!")
-   end,
+ThirdSeaSection:CreateButton({
+    Name = "Teleport to Tiki Outpost",
+    Callback = function()
+        -- Your teleport function for Tiki Outpost in Third Sea
+        print("Teleporting to Tiki Outpost")
+    end,
 })
 
--- Add additional sections and buttons for other functionalities as needed
--- Example: Islands, other features, etc.
+-- Miscellaneous Features Section
+MiscSection:CreateToggle({
+    Name = "Auto Farm",
+    CurrentValue = false,
+    Flag = "AutoFarmToggle", 
+    Callback = function(value)
+        -- Enable or disable Auto Farm functionality
+        if value then
+            print("Auto Farm Enabled")
+        else
+            print("Auto Farm Disabled")
+        end
+    end,
+})
 
--- Destroy the interface when done
--- Rayfield:Destroy() -- Uncomment this line if you want to close the window after use
+MiscSection:CreateToggle({
+    Name = "Auto Raid",
+    CurrentValue = false,
+    Flag = "AutoRaidToggle",
+    Callback = function(value)
+        -- Enable or disable Auto Raid functionality
+        if value then
+            print("Auto Raid Enabled")
+        else
+            print("Auto Raid Disabled")
+        end
+    end,
+})
+
+MiscSection:CreateButton({
+    Name = "Notification Example",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Action Completed",
+            Content = "You have completed an action successfully!",
+            Duration = 5,
+            Image = "check-circle",
+        })
+    end,
+})
+
+MiscSection:CreateSlider({
+    Name = "Farm Speed",
+    Range = {1, 100},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 50,
+    Flag = "FarmSpeedSlider", 
+    Callback = function(value)
+        -- Use this value to adjust farm speed
+        print("Farm Speed set to: " .. value)
+    end,
+})
+
+-- Notifications for successful setup
+Rayfield:Notify({
+    Title = "Welcome to the Blox Fruits Hub",
+    Content = "Everything is set up and ready to go!",
+    Duration = 6.5,
+    Image = "check-circle",
+})
+
+-- Finalizing and showing the Rayfield UI
+Rayfield:Init()
+
