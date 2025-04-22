@@ -16,13 +16,13 @@ local Window = Rayfield:CreateWindow({
    Name = "Deez Hub",
    Icon = 0, -- No icon (default)
    LoadingTitle = "Loading Deez Hub",
-   LoadingSubtitle = "by Pooja",
+   LoadingSubtitle = "by ISSAMFTN",
    Theme = "Default",
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = nil, -- Custom folder for your hub/game
+      FolderName = deezhub, -- Custom folder for your hub/game
       FileName = "DeezHubConfig"
    },
    Discord = {
@@ -30,15 +30,15 @@ local Window = Rayfield:CreateWindow({
       Invite = "noinvitelink", -- No invite link
       RememberJoins = true -- Remember join state
    },
-   KeySystem = false, -- Key system is off
+   KeySystem = true, -- Key system is on
    KeySettings = {
-      Title = "Untitled",
+      Title = "Keysystem",
       Subtitle = "Key System",
       Note = "No method of obtaining the key is provided",
       FileName = "Key",
       SaveKey = true,
       GrabKeyFromSite = false,
-      Key = {"Hello"} -- Accepts the key "Hello"
+      Key = {"DeezAdmin"} -- Accepts the key "DeezAdmin"
    }
 })
 
