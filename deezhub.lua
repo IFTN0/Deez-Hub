@@ -16,13 +16,13 @@ local Window = Rayfield:CreateWindow({
    Name = "Deez Hub",
    Icon = 0, -- No icon (default)
    LoadingTitle = "Loading Deez Hub",
-   LoadingSubtitle = "by ISSAMFTN",
+   LoadingSubtitle = "by Pooja",
    Theme = "Default",
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = deezhub, -- Custom folder for your hub/game
+      FolderName = nil, -- Custom folder for your hub/game
       FileName = "DeezHubConfig"
    },
    Discord = {
@@ -221,7 +221,7 @@ local Tab = Window:CreateTab("Main")
 local FeatureSection = Tab:CreateSection("Main Features")
 
 -- Auto-Farm Toggle
-local AutoFarmToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "Auto-Farm",
    CurrentValue = false,
    Flag = "AutoFarmToggle",
@@ -241,7 +241,7 @@ local AutoFarmToggle = FeatureSection:CreateToggle({
 })
 
 -- Auto-Collect Toggle
-local AutoCollectToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "Auto-Collect",
    CurrentValue = false,
    Flag = "AutoCollectToggle",
@@ -261,38 +261,27 @@ local AutoCollectToggle = FeatureSection:CreateToggle({
 })
 
 -- ESP Toggle
-local ESPToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "ESP",
    CurrentValue = false,
    Flag = "ESPToggle",
    Callback = function(state)
       ESPEnabled = state
       if state then
-         for _, Player in pairs(Players:GetPlayers()) do
-            if Player ~= LocalPlayer and Player.Character then
-                local Distance = math.floor((Player.Character.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
-                AddESP(Player.Character, Color3.new(1, 0, 0), Player.Name, Distance)
-            end
-         end
+         -- Start ESP
          Rayfield:Notify({
             Title = "ESP Activated",
-            Content = "ESP for players and items is now enabled.",
+            Content = "ESP is now enabled.",
             Duration = 3,
             Image = "eye"
          })
-      else
-         for _, Object in pairs(Workspace:GetDescendants()) do
-            if Object:IsA("BillboardGui") or Object:IsA("Highlight") then
-               Object:Destroy()
-            end
-         end
       end
       table.insert(StatusLog, "ESP " .. (state and "Enabled" or "Disabled"))
    end
 })
 
 -- Auto-Skills Toggle
-local AutoSkillsToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "Auto-Skills",
    CurrentValue = false,
    Flag = "AutoSkillsToggle",
@@ -312,7 +301,7 @@ local AutoSkillsToggle = FeatureSection:CreateToggle({
 })
 
 -- Auto-SeaBeast Toggle
-local AutoSeaBeastToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "Auto-SeaBeast",
    CurrentValue = false,
    Flag = "AutoSeaBeastToggle",
@@ -324,7 +313,7 @@ local AutoSeaBeastToggle = FeatureSection:CreateToggle({
             Title = "Auto-SeaBeast Activated",
             Content = "Auto-SeaBeast is now enabled.",
             Duration = 3,
-            Image = "whale"
+            Image = "ocean"
          })
       end
       table.insert(StatusLog, "Auto-SeaBeast " .. (state and "Enabled" or "Disabled"))
@@ -332,7 +321,7 @@ local AutoSeaBeastToggle = FeatureSection:CreateToggle({
 })
 
 -- Auto-Stats Toggle
-local AutoStatsToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "Auto-Stats",
    CurrentValue = false,
    Flag = "AutoStatsToggle",
@@ -352,7 +341,7 @@ local AutoStatsToggle = FeatureSection:CreateToggle({
 })
 
 -- Kill-Aura Toggle
-local KillAuraToggle = FeatureSection:CreateToggle({
+FeatureSection:CreateToggle({
    Name = "Kill-Aura",
    CurrentValue = false,
    Flag = "KillAuraToggle",
