@@ -216,52 +216,169 @@ end
 
 -- UI Setup with Rayfield
 local Tab = Window:CreateTab("Main")
-local Section = Tab:CreateSection("WormGPT Features")
 
-Section:CreateToggle("Auto-Farm", "Farms mobs for XP and Beli", function(state)
-    AutoFarm = state
-    if state then
-        spawn(AutoFarmMobs)
-    end
-    table.insert(StatusLog, "Auto-Farm " .. (state and "Enabled" or "Disabled"))
-end)
+-- Features Section
+local FeatureSection = Tab:CreateSection("Main Features")
 
-Section:CreateToggle("Auto-Collect", "Collects fruits and chests", function(state)
-    AutoCollect = state
-    if state then
-        spawn(AutoCollectItems)
-    end
-    table.insert(StatusLog, "Auto-Collect " .. (state and "Enabled" or "Disabled"))
-end)
+-- Auto-Farm Toggle
+local AutoFarmToggle = FeatureSection:CreateToggle({
+   Name = "Auto-Farm",
+   CurrentValue = false,
+   Flag = "AutoFarmToggle",
+   Callback = function(state)
+      AutoFarm = state
+      if state then
+         spawn(AutoFarmMobs)
+         Rayfield:Notify({
+            Title = "Auto-Farm Activated",
+            Content = "Auto-Farming is now enabled.",
+            Duration = 3,
+            Image = "play"
+         })
+      end
+      table.insert(StatusLog, "Auto-Farm " .. (state and "Enabled" or "Disabled"))
+   end
+})
 
-Section:CreateToggle("ESP", "Highlights players, mobs, and items", function(state)
-    ESPEnabled = state
-    if state then
-        for _, Player in pairs(Players:GetPlayers()) do
+-- Auto-Collect Toggle
+local AutoCollectToggle = FeatureSection:CreateToggle({
+   Name = "Auto-Collect",
+   CurrentValue = false,
+   Flag = "AutoCollectToggle",
+   Callback = function(state)
+      AutoCollect = state
+      if state then
+         spawn(AutoCollectItems)
+         Rayfield:Notify({
+            Title = "Auto-Collect Activated",
+            Content = "Auto-Collecting items is now enabled.",
+            Duration = 3,
+            Image = "shopping-cart"
+         })
+      end
+      table.insert(StatusLog, "Auto-Collect " .. (state and "Enabled" or "Disabled"))
+   end
+})
+
+-- ESP Toggle
+local ESPToggle = FeatureSection:CreateToggle({
+   Name = "ESP",
+   CurrentValue = false,
+   Flag = "ESPToggle",
+   Callback = function(state)
+      ESPEnabled = state
+      if state then
+         for _, Player in pairs(Players:GetPlayers()) do
             if Player ~= LocalPlayer and Player.Character then
                 local Distance = math.floor((Player.Character.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
                 AddESP(Player.Character, Color3.new(1, 0, 0), Player.Name, Distance)
             end
-        end
-        for _, Item in pairs(Workspace:GetChildren()) do
-            if Item.Name:match("Fruit") or Item.Name:match("Chest") then
-                AddESP(Item, Color3.new(0, 1, 0), Item.Name, nil)
-            end
-        end
-        for _, Mob in pairs(Workspace.Enemies:GetChildren()) do
-            if Mob:IsA("Model") then
-                AddESP(Mob, Color3.new(1, 1, 0), Mob.Name, nil)
-            end
-        end
-    else
-        for _, Object in pairs(Workspace:GetDescendants()) do
+         end
+         Rayfield:Notify({
+            Title = "ESP Activated",
+            Content = "ESP for players and items is now enabled.",
+            Duration = 3,
+            Image = "eye"
+         })
+      else
+         for _, Object in pairs(Workspace:GetDescendants()) do
             if Object:IsA("BillboardGui") or Object:IsA("Highlight") then
-                Object:Destroy()
+               Object:Destroy()
             end
-        end
-    end
-    table.insert(StatusLog, "ESP " .. (state and "Enabled" or "Disabled"))
-end)
+         end
+      end
+      table.insert(StatusLog, "ESP " .. (state and "Enabled" or "Disabled"))
+   end
+})
 
--- Additional toggle options for other features...
--- [The rest of your existing features go here without changes]
+-- Auto-Skills Toggle
+local AutoSkillsToggle = FeatureSection:CreateToggle({
+   Name = "Auto-Skills",
+   CurrentValue = false,
+   Flag = "AutoSkillsToggle",
+   Callback = function(state)
+      AutoSkills = state
+      if state then
+         spawn(AutoUseSkills)
+         Rayfield:Notify({
+            Title = "Auto-Skills Activated",
+            Content = "Auto-Skills is now enabled.",
+            Duration = 3,
+            Image = "zap"
+         })
+      end
+      table.insert(StatusLog, "Auto-Skills " .. (state and "Enabled" or "Disabled"))
+   end
+})
+
+-- Auto-SeaBeast Toggle
+local AutoSeaBeastToggle = FeatureSection:CreateToggle({
+   Name = "Auto-SeaBeast",
+   CurrentValue = false,
+   Flag = "AutoSeaBeastToggle",
+   Callback = function(state)
+      AutoSeaBeast = state
+      if state then
+         spawn(AutoHuntSeaBeast)
+         Rayfield:Notify({
+            Title = "Auto-SeaBeast Activated",
+            Content = "Auto-SeaBeast is now enabled.",
+            Duration = 3,
+            Image = "whale"
+         })
+      end
+      table.insert(StatusLog, "Auto-SeaBeast " .. (state and "Enabled" or "Disabled"))
+   end
+})
+
+-- Auto-Stats Toggle
+local AutoStatsToggle = FeatureSection:CreateToggle({
+   Name = "Auto-Stats",
+   CurrentValue = false,
+   Flag = "AutoStatsToggle",
+   Callback = function(state)
+      AutoStats = state
+      if state then
+         spawn(AutoAllocateStats)
+         Rayfield:Notify({
+            Title = "Auto-Stats Activated",
+            Content = "Auto-Stats is now enabled.",
+            Duration = 3,
+            Image = "chart-bar"
+         })
+      end
+      table.insert(StatusLog, "Auto-Stats " .. (state and "Enabled" or "Disabled"))
+   end
+})
+
+-- Kill-Aura Toggle
+local KillAuraToggle = FeatureSection:CreateToggle({
+   Name = "Kill-Aura",
+   CurrentValue = false,
+   Flag = "KillAuraToggle",
+   Callback = function(state)
+      KillAura = state
+      if state then
+         spawn(KillAuraLoop)
+         Rayfield:Notify({
+            Title = "Kill-Aura Activated",
+            Content = "Kill-Aura is now enabled.",
+            Duration = 3,
+            Image = "skull"
+         })
+      end
+      table.insert(StatusLog, "Kill-Aura " .. (state and "Enabled" or "Disabled"))
+   end
+})
+
+-- Status Section
+local StatusSection = Tab:CreateSection("Status")
+StatusSection:CreateLabel("Script Status: Active")
+StatusSection:CreateTextBox({
+   Name = "Logs",
+   PlaceholderText = "Latest Status Log...",
+   Text = table.concat(StatusLog, "\n"),
+   IsTextSelectable = true
+})
+
+-- End of script setup
