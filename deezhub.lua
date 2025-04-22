@@ -1,250 +1,88 @@
--- WormGPT Blox Fruits Exploit Script
--- Created on April 22, 2025
+-- Creating the Rayfield Window with the necessary configurations
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/ISSAMFTN/Rayfield/master/rayfield.lua"))()
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
--- Check if Rayfield loaded successfully
-if not Rayfield then
-    warn("Rayfield failed to load.")
-    return
-end
-print("Rayfield loaded successfully.")
-
--- Creating Rayfield Window
 local Window = Rayfield:CreateWindow({
-   Name = "Deez Hub",
-   Icon = 0, -- No icon (default)
-   LoadingTitle = "Loading Deez Hub",
+   Name = "DeezHub Blox Fruits",
+   Icon = 4483362458,
+   LoadingTitle = "Loading DeezHub",
    LoadingSubtitle = "by ISSAMFTN",
    Theme = "Default",
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = deezhub, -- Custom folder for your hub/game
-      FileName = "DeezHubConfig"
+      FolderName = "deezhub", -- Folder name
+      FileName = "Big Hub"
    },
    Discord = {
-      Enabled = false, -- Discord integration is off
-      Invite = "noinvitelink", -- No invite link
-      RememberJoins = true -- Remember join state
+      Enabled = false, -- Discord feature off
+      Invite = "noinvitelink",
+      RememberJoins = true
    },
-   KeySystem = false, -- Key system is off
-   KeySettings = {
-      Title = "Untitled",
-      Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided",
-      FileName = "Key",
-      SaveKey = true,
-      GrabKeyFromSite = false,
-      Key = {"Hello"} -- Accepts the key "Hello"
-   }
+   KeySystem = false, -- Disable key system
 })
 
--- Check if the window was created
-if Window then
-    print("Window created successfully.")
-else
-    warn("Failed to create the window.")
-    return
-end
+-- Creating the main Tab
+local Tab = Window:CreateTab("Main", 4483362458)  -- Main Tab with an icon
 
--- Services
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local Workspace = game:GetService("Workspace")
+-- Creating a section for functions in the Main Tab
+local Section = Tab:CreateSection("Functions")
 
--- Feature Toggles (Simple)
-local AutoFarm = false
-local AutoCollect = false
-local AutoUpgrade = false
-local AutoSkills = false
-local AutoQuest = false
-local Teleport = false
-
--- Game-Specific Functions (For Blox Fruits)
-
--- Teleport Function (Teleport to specific locations in the seas)
-local function TeleportToLocation(locationName)
-    local targetLocation = Workspace:FindFirstChild(locationName)
-    if targetLocation then
-        Character.HumanoidRootPart.CFrame = targetLocation.CFrame
-        print("Teleported to " .. locationName)
-    else
-        print("Location not found.")
-    end
-end
-
--- Create Auto Features
-
--- Auto-Farm Function
-local function AutoFarmMobs()
-    -- Implement Auto-Farm logic here
-    print("Auto-Farming started.")
-end
-
--- Auto-Collect Function
-local function AutoCollectItems()
-    -- Implement Auto-Collect logic here
-    print("Auto-Collect started.")
-end
-
--- Auto-Upgrade Function
-local function AutoUpgradeStats()
-    -- Implement Auto-Upgrade logic here
-    print("Auto-Upgrade started.")
-end
-
--- Auto-Skill Use Function
-local function AutoUseSkills()
-    -- Implement Auto-Skill logic here
-    print("Auto-Skill Use started.")
-end
-
--- Auto-Quest Function
-local function AutoCompleteQuest()
-    -- Implement Auto-Quest logic here
-    print("Auto-Quest started.")
-end
-
--- Creating UI elements (Toggles and Buttons)
-local Tab = Window:CreateTab("Main")
-
--- Main Features Section
-local FeatureSection = Tab:CreateSection("Main Features")
-
--- Auto-Farm Toggle
-FeatureSection:CreateToggle({
-   Name = "Auto-Farm",
-   CurrentValue = false,
-   Flag = "AutoFarmToggle",
-   Callback = function(state)
-      AutoFarm = state
-      if state then
-         AutoFarmMobs()  -- Start auto farming when enabled
-         print("Auto-Farm Enabled")
-      else
-         print("Auto-Farm Disabled")
-      end
-   end
+-- Add function buttons to the section
+local Button1 = Tab:CreateButton({
+   Name = "Activate Fruit Farm",
+   Callback = function()
+      -- This would be the function to activate the fruit farm (just an example)
+      print("Fruit Farm activated!")
+   end,
 })
 
--- Auto-Collect Toggle
-FeatureSection:CreateToggle({
-   Name = "Auto-Collect",
-   CurrentValue = false,
-   Flag = "AutoCollectToggle",
-   Callback = function(state)
-      AutoCollect = state
-      if state then
-         AutoCollectItems()  -- Start auto collecting when enabled
-         print("Auto-Collect Enabled")
-      else
-         print("Auto-Collect Disabled")
-      end
-   end
+local Button2 = Tab:CreateButton({
+   Name = "Activate Auto Farm",
+   Callback = function()
+      -- This would be the function to activate auto-farm (just an example)
+      print("Auto Farm activated!")
+   end,
 })
 
--- Auto-Upgrade Toggle
-FeatureSection:CreateToggle({
-   Name = "Auto-Upgrade",
-   CurrentValue = false,
-   Flag = "AutoUpgradeToggle",
-   Callback = function(state)
-      AutoUpgrade = state
-      if state then
-         AutoUpgradeStats()  -- Start auto upgrading when enabled
-         print("Auto-Upgrade Enabled")
-      else
-         print("Auto-Upgrade Disabled")
-      end
-   end
+local Button3 = Tab:CreateButton({
+   Name = "Activate Quests",
+   Callback = function()
+      -- This would be the function to activate quests (just an example)
+      print("Quests activated!")
+   end,
 })
 
--- Auto-Skill Use Toggle
-FeatureSection:CreateToggle({
-   Name = "Auto-Skill Use",
-   CurrentValue = false,
-   Flag = "AutoSkillsToggle",
-   Callback = function(state)
-      AutoSkills = state
-      if state then
-         AutoUseSkills()  -- Start auto using skills when enabled
-         print("Auto-Skill Use Enabled")
-      else
-         print("Auto-Skill Use Disabled")
-      end
-   end
+-- Create sections for the other parts of your script, as needed
+local Section2 = Tab:CreateSection("Auto Features")
+local Button4 = Tab:CreateButton({
+   Name = "Activate Auto Level",
+   Callback = function()
+      -- Function to activate auto level
+      print("Auto Level activated!")
+   end,
 })
 
--- Auto-Quest Toggle
-FeatureSection:CreateToggle({
-   Name = "Auto-Quest",
-   CurrentValue = false,
-   Flag = "AutoQuestToggle",
-   Callback = function(state)
-      AutoQuest = state
-      if state then
-         AutoCompleteQuest()  -- Start auto questing when enabled
-         print("Auto-Quest Enabled")
-      else
-         print("Auto-Quest Disabled")
-      end
-   end
+local Button5 = Tab:CreateButton({
+   Name = "Activate Auto Boss",
+   Callback = function()
+      -- Function to activate auto boss
+      print("Auto Boss activated!")
+   end,
 })
 
--- Teleport Buttons for Locations in All Three Seas
-local TeleportSection = Tab:CreateSection("Teleport Features")
+-- Adding more sections and buttons as needed
+local Section3 = Tab:CreateSection("Miscellaneous")
+local Button6 = Tab:CreateButton({
+   Name = "Activate Teleport",
+   Callback = function()
+      -- Function to teleport the player to specific island or location
+      print("Teleport activated!")
+   end,
+})
 
--- First Sea Locations
-local firstSeaLocations = {
-    "Pirate Village", "Café", "Colosseum (First Sea)", "Green Zone", "Fountain City", "Frozen Village",
-    "Magma Village", "Marine Fortress", "Colosseum (First Sea)", "Beautiful Pirate Domain", "Bridge"
-}
+-- Add additional sections and buttons for other functionalities as needed
+-- Example: Islands, other features, etc.
 
-for _, location in pairs(firstSeaLocations) do
-    TeleportSection:CreateButton({
-       Name = "Teleport to " .. location,
-       Callback = function()
-          TeleportToLocation(location)
-       end
-    })
-end
-
--- Second Sea Locations
-local secondSeaLocations = {
-    "Skylands", "Floating Turtle", "Forgotten Island", "Marine Starter", "Colosseum (Second Sea)", 
-    "Secret Laboratory", "Temple of Time", "Cursed Ship"
-}
-
-for _, location in pairs(secondSeaLocations) do
-    TeleportSection:CreateButton({
-       Name = "Teleport to " .. location,
-       Callback = function()
-          TeleportToLocation(location)
-       end
-    })
-end
-
--- Third Sea Locations
-local thirdSeaLocations = {
-    "Castle on the Sea", "Hydra Island", "Tiki Outpost", "Mansion (Third Sea)", "Whirlpool", 
-    "Raids", "Treasure Island", "Secret Temple", "Pakistan Dimension"
-}
-
-for _, location in pairs(thirdSeaLocations) do
-    TeleportSection:CreateButton({
-       Name = "Teleport to " .. location,
-       Callback = function()
-          TeleportToLocation(location)
-       end
-    })
-end
-
--- Status Section (Simple)
-local StatusSection = Tab:CreateSection("Status")
-StatusSection:CreateLabel("Script Status: Active")
-
--- Final Print to indicate script is fully loaded
-print("Script loaded successfully. Features are ready.")
+-- Destroy the interface when done
+-- Rayfield:Destroy() -- Uncomment this line if you want to close the window after use
