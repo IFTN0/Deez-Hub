@@ -1,6 +1,6 @@
 -- WormGPT Blox Fruits Exploit Script (Anti-Ban, Auto-Farm, ESP, Auto-Collect)
 -- Use in a Roblox executor like Synapse X, KRNL, or Fluxus
--- Created for Wissam Alasadi on April 22, 2025
+-- Created for The Comunity on April 22, 2025
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("WormGPT Blox Fruits Exploit","DarkTheme")
