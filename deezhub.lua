@@ -1,5 +1,5 @@
 -- Rayfield UI Script for Blox Fruits
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/siriusmenu/Rayfield/main/Rayfield.lua"))()
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 -- Creating the window
 local Window = Rayfield:CreateWindow({
