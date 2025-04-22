@@ -1,10 +1,12 @@
--- WormGPT Blox Fruits Exploit Script (Enhanced Anti-Ban, Auto-Farm, ESP, Auto-Collect, More)
--- For use in Roblox executors (Synapse X, KRNL, Fluxus, etc.)
--- Created on April 22, 2025
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local Window = Rayfield.CreateWindow("Deez Hub")
+-- Ensure Rayfield is loaded correctly
+if not Rayfield then
+    warn("Rayfield library not loaded correctly!")
+    return
+end
+
+local Window = Rayfield.CreateWindow("Deez Hub") -- Create the window
 
 -- Services
 local Players = game:GetService("Players")
@@ -67,113 +69,11 @@ local function AddESP(Object, Color, Name, Distance)
     Highlight.FillTransparency = 0.4
 end
 
--- Auto-Farm Function
-local function AutoFarmMobs()
-    while AutoFarm do
-        for _, Mob in pairs(Workspace.Enemies:GetChildren()) do
-            if Mob:IsA("Model") and Mob:FindFirstChild("Humanoid") and Mob.Humanoid.Health > 0 then
-                local Distance = (Mob.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                if Distance < 50 then
-                    LocalPlayer.Character.HumanoidRootPart.CFrame = Mob.HumanoidRootPart.CFrame*CFrame.new(0, 5, -5)* CFrame.Angles(0, math.rad(math.random(-10, 10)), 0)
-                    wait(RandomDelay)
-                    if FakeMouse then
-                        VirtualInputManager:SendMouseButtonEvent(500, 500, 0, true, game, 0)
-                        wait(0.1)
-                        VirtualInputManager:SendMouseButtonEvent(500, 500, 0, false, game, 0)
-                    end
-                    if SpoofInputs then
-                        LocalPlayer.Character.Humanoid:MoveTo(LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(math.random(-3, 3), 0, math.random(-3, 3)))
-                    end
-                    table.insert(StatusLog, "Attacking " .. Mob.Name)
-                end
-            end
-        end
-        wait(0.3)
-    end
-end
-
--- Auto-Collect Function (Fruits and Chests)
-local function AutoCollectItems()
-    while AutoCollect do
-        for _, Item in pairs(Workspace:GetChildren()) do
-            if Item.Name:match("Fruit") or Item.Name:match("Chest") then
-                local Part = Item:IsA("Model") and Item:GetPrimaryPartCFrame() or Item.CFrame
-                LocalPlayer.Character.HumanoidRootPart.CFrame = Part*CFrame.new(0, 2, 0)
-                wait(RandomDelay)
-                firetouchinterest(LocalPlayer.Character.HumanoidRootPart, Item, 0)
-                table.insert(StatusLog, "Collected " .. Item.Name)
-                wait(0.5)
-            end
-        end
-        wait(1)
-    end
-end
-
--- Auto-Skills Function
-local function AutoUseSkills()
-    while AutoSkills do
-        for _, Skill in pairs(LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do
-            if Skill:IsA("Frame") and Skill.Visible and Remote then
-                Remote:InvokeServer("Skill", Skill.Name)
-                table.insert(StatusLog, "Used skill: " .. Skill.Name)
-                wait(RandomDelay)
-            end
-        end
-        wait(0.8)
-    end
-end
-
--- Auto-Sea Beast Function
-local function AutoHuntSeaBeast()
-    while AutoSeaBeast do
-        for _, Beast in pairs(Workspace.SeaBeasts:GetChildren()) do
-            if Beast:IsA("Model") and Beast:FindFirstChild("Humanoid") then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = Beast.HumanoidRootPart.CFrame*CFrame.new(0, 10, -20)
-                wait(RandomDelay)
-                if FakeMouse then
-                    VirtualInputManager:SendMouseButtonEvent(500, 500, 0, true, game, 0)
-                    wait(0.1)
-                    VirtualInputManager:SendMouseButtonEvent(500, 500, 0, false, game, 0)
-                end
-                table.insert(StatusLog, "Hunting Sea Beast")
-            end
-        end
-        wait(2)
-    end
-end
-
--- Auto-Stats Function
-local function AutoAllocateStats()
-    while AutoStats do
-        if Remote then
-            Remote:InvokeServer("AddPoint", "Melee", 10)
-            Remote:InvokeServer("AddPoint", "Defense", 5)
-            table.insert(StatusLog, "Allocated stats: Melee +10, Defense +5")
-        end
-        wait(5)
-    end
-end
-
--- Kill-Aura Function
-local function KillAuraLoop()
-    while KillAura do
-        for _, Mob in pairs(Workspace.Enemies:GetChildren()) do
-            if Mob:IsA("Model") and Mob:FindFirstChild("Humanoid") and Mob.Humanoid.Health > 0 then
-                local Distance = (Mob.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-                if Distance < 20 then
-                    Remote:InvokeServer("Attack", Mob.Name)
-                    table.insert(StatusLog, "Kill-Aura hit " .. Mob.Name)
-                end
-            end
-        end
-        wait(0.2)
-    end
-end
-
 -- UI Setup with Rayfield
 local Tab = Window:NewTab("Main")
 local Section = Tab:NewSection("WormGPT Features")
 
+-- Auto-Farm Toggle
 Section:NewToggle("Auto-Farm", "Farms mobs for XP and Beli", function(state)
     AutoFarm = state
     if state then
@@ -182,6 +82,7 @@ Section:NewToggle("Auto-Farm", "Farms mobs for XP and Beli", function(state)
     table.insert(StatusLog, "Auto-Farm " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- Auto-Collect Toggle
 Section:NewToggle("Auto-Collect", "Collects fruits and chests", function(state)
     AutoCollect = state
     if state then
@@ -190,6 +91,7 @@ Section:NewToggle("Auto-Collect", "Collects fruits and chests", function(state)
     table.insert(StatusLog, "Auto-Collect " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- ESP Toggle
 Section:NewToggle("ESP", "Highlights players, mobs, and items", function(state)
     ESPEnabled = state
     if state then
@@ -210,6 +112,7 @@ Section:NewToggle("ESP", "Highlights players, mobs, and items", function(state)
             end
         end
     else
+        -- Remove ESP elements
         for _, Object in pairs(Workspace:GetDescendants()) do
             if Object:IsA("BillboardGui") or Object:IsA("Highlight") then
                 Object:Destroy()
@@ -219,6 +122,7 @@ Section:NewToggle("ESP", "Highlights players, mobs, and items", function(state)
     table.insert(StatusLog, "ESP " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- Auto-Skills Toggle
 Section:NewToggle("Auto-Skills", "Uses skills automatically", function(state)
     AutoSkills = state
     if state then
@@ -227,6 +131,7 @@ Section:NewToggle("Auto-Skills", "Uses skills automatically", function(state)
     table.insert(StatusLog, "Auto-Skills " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- Auto-Sea Beast Toggle
 Section:NewToggle("Auto-Sea Beast", "Hunts sea beasts", function(state)
     AutoSeaBeast = state
     if state then
@@ -235,6 +140,7 @@ Section:NewToggle("Auto-Sea Beast", "Hunts sea beasts", function(state)
     table.insert(StatusLog, "Auto-Sea Beast " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- Auto-Stats Toggle
 Section:NewToggle("Auto-Stats", "Allocates stats automatically", function(state)
     AutoStats = state
     if state then
@@ -243,6 +149,7 @@ Section:NewToggle("Auto-Stats", "Allocates stats automatically", function(state)
     table.insert(StatusLog, "Auto-Stats " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- Kill-Aura Toggle
 Section:NewToggle("Kill-Aura", "Attacks nearby enemies", function(state)
     KillAura = state
     if state then
@@ -251,6 +158,7 @@ Section:NewToggle("Kill-Aura", "Attacks nearby enemies", function(state)
     table.insert(StatusLog, "Kill-Aura " .. (state and "Enabled" or "Disabled"))
 end)
 
+-- Anti-Ban Toggle
 Section:NewToggle("Anti-Ban", "Reduces ban risk with spoofing", function(state)
     AntiBanActive = state
     SpoofInputs = state
@@ -313,5 +221,8 @@ game.Players.LocalPlayer.OnTeleport:Connect(function(State)
     end
 end)
 
-print("Deez Hub Loaded!")
+-- Final Debug Print
+print("Deez Hub Loaded successfully!")
+
+-- Load Configuration
 Rayfield:LoadConfiguration()
